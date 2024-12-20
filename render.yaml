@@ -3,6 +3,7 @@ databases:
     databaseName: cad_db_e16s
     user: cad_db_e16s_user
     plan: free
+    postgresMajorVersion: 15
 
 services:
   - type: web
