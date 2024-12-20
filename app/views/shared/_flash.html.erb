@@ -1,0 +1,10 @@
+<!-- This file is used to display flash messages in the application, providing a way to show notifications to the user after certain actions. -->
+
+<% flash.each do |name, msg| %>
+  <% if msg.is_a?(String) %>
+    <div class="alert alert-<%= name == 'notice' ? 'success' : name == 'alert' ? 'danger' : 'info' %> alert-dismissible fade show">
+      <%= msg %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,38 @@
+<!--
+  This is the view for creating a new team. It includes a form for users to input the team's name and description.
+-->
+
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h2 class="card-title h4 mb-4">Create New Team</h2>
+    
+    <%= form_with(model: @team, local: true) do |f| %>
+      <% if @team.errors.any? %>
+        <div class="alert alert-danger">
+          <h6>Please fix the following errors:</h6>
+          <ul class="mb-0">
+            <% @team.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="mb-3">
+        <%= f.label :name, class: "form-label" %>
+        <%= f.text_field :name, class: "form-control", placeholder: "Enter team name" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :description, class: "form-label" %>
+        <%= f.text_area :description, class: "form-control", rows: 4, placeholder: "Enter team description" %>
+      </div>
+
+      <div class="d-flex justify-content-end gap-2">
+        <%= link_to 'Cancel', teams_path, class: "btn btn-light" %>
+        <%= f.submit 'Create Team', class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

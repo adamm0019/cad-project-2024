@@ -1,0 +1,41 @@
+<!--
+  This is the index view for teams.
+  It displays a list of teams, along with actions to view, edit, and create new teams.
+-->
+
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h1 class="h3 mb-0">Teams</h1>
+        <p class="text-muted mb-0">Manage your organisation's teams</p>
+      </div>
+      <%= link_to new_team_path, class: "btn btn-primary" do %>
+        <i class="bi bi-plus-lg me-1"></i> New Team
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <% if @teams.any? %>
+    <% @teams.each do |team| %>
+      <div class="col-md-6 col-lg-4 mb-4">
+        <%= render 'team_card', team: team %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="col-12">
+      <div class="text-center py-5">
+        <div class="display-1 text-muted mb-4">
+          <i class="bi bi-people"></i>
+        </div>
+        <h3>No Teams Yet</h3>
+        <p class="text-muted">Get started by creating your first team</p>
+        <%= link_to new_team_path, class: "btn btn-primary mt-2" do %>
+          <i class="bi bi-plus-lg me-1"></i> Create Team
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

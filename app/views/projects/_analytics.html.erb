@@ -1,0 +1,28 @@
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <h5 class="card-title mb-4">Project Analytics</h5>
+    
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        <h6>Task Status Distribution</h6>
+        <%= pie_chart @project.tasks_by_status,
+            colors: ["#dc3545", "#007bff", "#28a745"],
+            donut: true %>
+      </div>
+      
+      <div class="col-md-6 mb-4">
+        <h6>Task Priority Distribution</h6>
+        <%= pie_chart @project.tasks_by_priority,
+            colors: ["#28a745", "#ffc107", "#dc3545"],
+            donut: true %>
+      </div>
+    </div>
+
+    <div class="progress mb-2">
+      <div class="progress-bar" role="progressbar" 
+           style="width: <%= @project.completion_rate %>%">
+        <%= @project.completion_rate %>% Complete
+      </div>
+    </div>
+  </div>
+</div>

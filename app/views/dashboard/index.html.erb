@@ -1,0 +1,118 @@
+<div class="container mt-4">
+  <% if @teams.any? %>
+    <div class="row g-4 mb-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title mb-4">Project Status Distribution</h5>
+            <% status_data = @projects.group(:status).count %>
+            <%= pie_chart status_data, 
+                colors: ["#0d6efd", "#ffc107", "#198754"],
+                donut: true,
+                legend: "right",
+                empty: "No data available" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title mb-4">Projects Over Time</h5>
+            <% time_data = @projects.group_by_month(:created_at).count %>
+            <%= line_chart time_data,
+                points: false,
+                colors: ["#0d6efd"],
+                empty: "No data available" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title mb-4">Recent Projects</h5>
+            <% if @recent_projects&.any? %>
+              <div class="list-group list-group-flush">
+                <% @recent_projects.each do |project| %>
+                  <%= link_to project_path(project), class: "list-group-item list-group-item-action px-0" do %>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <div>
+                        <h6 class="mb-0"><%= project.name %></h6>
+                        <small class="text-muted">Team: <%= project.team.name %></small>
+                      </div>
+                      <span class="badge bg-<%= project.status == 'completed' ? 'success' : (project.status == 'on_hold' ? 'warning' : 'primary') %>">
+                        <%= project.status.humanize %>
+                      </span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <div class="progress flex-grow-1" style="height: 6px;">
+                        <div class="progress-bar bg-<%= project.completion_rate == 100 ? 'success' : 'primary' %>"
+                             role="progressbar"
+                             style="width: <%= project.completion_rate %>%"
+                             aria-valuenow="<%= project.completion_rate %>"
+                             aria-valuemin="0"
+                             aria-valuemax="100">
+                        </div>
+                      </div>
+                      <small class="text-muted ms-2"><%= project.completion_rate %>%</small>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="text-center py-4">
+                <p class="text-muted mb-0">No projects yet</p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title mb-4">Tasks Due Soon</h5>
+            <% if @tasks_due_soon&.any? %>
+              <div class="list-group list-group-flush">
+                <% @tasks_due_soon.each do |task| %>
+                  <%= link_to project_path(task.project), class: "list-group-item list-group-item-action px-0" do %>
+                    <div class="d-flex justify-content-between align-items-start">
+                      <div>
+                        <h6 class="mb-1"><%= task.title %></h6>
+                        <small class="text-muted">
+                          Project: <%= task.project.name %> (<%= task.project.team.name %>)
+                        </small>
+                      </div>
+                      <small class="text-<%= task.due_date < Date.today ? 'danger' : 'warning' %>">
+                        <%= time_ago_in_words(task.due_date) %> <%= task.due_date < Date.today ? 'overdue' : 'left' %>
+                      </small>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="text-center py-4">
+                <p class="text-muted mb-0">No upcoming tasks</p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="card">
+      <div class="card-body text-center py-5">
+        <div class="mb-4">
+          <i class="bi bi-people display-4 text-muted"></i>
+        </div>
+        <h5 class="text-muted mb-3">You are not part of any team yet</h5>
+        <%= link_to new_team_path, class: "btn btn-primary" do %>
+          <i class="bi bi-plus-lg me-1"></i> Create a Team
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

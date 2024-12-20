@@ -1,0 +1,53 @@
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h1 class="h3 mb-0">Teams</h1>
+        <p class="text-muted mb-0">Manage your organisation's teams</p>
+      </div>
+      <%= link_to new_team_path, class: "btn btn-primary" do %>
+        <i class="bi bi-plus-lg me-1"></i> New Team
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <% if @teams.any? %>
+    <% @teams.each do |team| %>
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title"><%= team.name %></h5>
+            <p class="card-text text-muted"><%= team.description %></p>
+            
+            <div class="mb-3">
+              <small class="text-muted">
+                <i class="bi bi-people me-1"></i>
+                <%= pluralize(team.users.count, 'member') %>
+              </small>
+            </div>
+
+            <div class="btn-group">
+              <%= link_to 'View Details', team_path(team), class: "btn btn-outline-primary btn-sm" %>
+              <%= link_to 'Edit', edit_team_path(team), class: "btn btn-outline-secondary btn-sm" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="col-12">
+      <div class="text-center py-5">
+        <div class="display-1 text-muted mb-4">
+          <i class="bi bi-people"></i>
+        </div>
+        <h3>No Teams Yet</h3>
+        <p class="text-muted">Get started by creating your first team</p>
+        <%= link_to new_team_path, class: "btn btn-primary mt-2" do %>
+          <i class="bi bi-plus-lg me-1"></i> Create Team
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
