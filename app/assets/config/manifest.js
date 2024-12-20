@@ -4,3 +4,6 @@
 //= link_tree ../../javascript .js
 //= link_tree ../../../vendor/javascript .js
 //= link application.js
+//= link controllers.js
+//= link controllers/application.js
+//= link controllers/index.js

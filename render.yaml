@@ -1,0 +1,56 @@
+databases:
+  - name: task_manager_postgres
+    databaseName: cad_db_e16s
+    user: cad_db_e16s_user
+    plan: free
+
+services:
+  - type: web
+    name: task-manager
+    env: ruby
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: task_manager_postgres
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_SERVE_STATIC_FILES
+        value: true
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: task-manager-redis
+          property: connectionString
+
+  - type: redis
+    name: task-manager-redis
+    plan: free
+    maxmemoryPolicy: noeviction
+    ipAllowList: []
+
+  - type: worker
+    name: sidekiq-worker
+    env: ruby
+    plan: free
+    buildCommand: bundle install
+    startCommand: bundle exec sidekiq
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: task_manager_postgres
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: RAILS_ENV
+        value: production
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: task-manager-redis
+          property: connectionString
