@@ -13,6 +13,7 @@ gem "ransack"
 gem "aws-sdk-s3"
 gem "rspec-rails"
 gem "rubocop-rails"
+gem "rubocop-rails-omakase", require: false
 gem "brakeman"        
 
 gem "tzinfo-data", platforms: %i[ windows jruby ]
