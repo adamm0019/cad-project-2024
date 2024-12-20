@@ -44,10 +44,6 @@ Rails.application.configure do
   # config.action_cable.url = "wss://example.com/cable"
   # config.action_cable.allowed_request_origins = [ "http://example.com", /http:\/\/example.*/ ]
 
-  # Assume all access to the app is happening through a SSL-terminating reverse proxy.
-  # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
-  # config.assume_ssl = true
-
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 
@@ -65,13 +61,10 @@ Rails.application.configure do
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
 
   # Use a different cache store in production.
-  config.cache_store = :redis_cache_store, { 
-    url: ENV.fetch('REDIS_URL', 'redis://localhost:6379/1'),
-    pool_size: ENV.fetch('RAILS_MAX_THREADS', 5)
-  }
+  config.cache_store = :memory_store
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
-  config.active_job.queue_adapter = :sidekiq
+  config.active_job.queue_adapter = :async
   config.active_job.queue_name_prefix = "task_manager_production"
 
   config.action_mailer.perform_caching = false

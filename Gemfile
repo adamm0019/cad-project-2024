@@ -6,7 +6,6 @@ gem "pg"
 gem "puma"
 gem "devise"
 gem "pundit"
-gem "sidekiq"
 gem "paper_trail"
 gem "kaminari"
 gem "ransack"
@@ -43,6 +42,7 @@ gem "importmap-rails"
 gem "turbo-rails"
 gem "stimulus-rails"
 gem "sass-rails"
+gem "redis"
 
 gem 'chartkick'
 gem 'groupdate'
