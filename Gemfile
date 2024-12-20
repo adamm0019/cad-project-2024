@@ -42,6 +42,7 @@ gem "sprockets-rails"
 gem "importmap-rails" 
 gem "turbo-rails"
 gem "stimulus-rails"
+gem "sass-rails"
 
 gem 'chartkick'
 gem 'groupdate'
